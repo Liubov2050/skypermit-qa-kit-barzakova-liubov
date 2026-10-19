@@ -35,10 +35,9 @@ The app is a **sibling folder**, not inside this repo:
 folder, and app paths without a prefix (`app/`, `lib/`, `supabase/`) are relative
 to its root.
 
-It is a separate git repo (origin `github.com/IraVol/ct-gen-ai-skypermit`). This
-repo still records an old gitlink entry for `ct-gen-ai-skypermit` with no
-`.gitmodules`, so git status shows it as deleted. That is expected; don't restore
-or commit anything for it unless the user asks.
+It is a separate git repo (origin `github.com/IraVol/ct-gen-ai-skypermit`) and is
+not tracked by this repo in any way (no submodule, no gitlink). A fresh clone of
+this repo does not include it; clone the app next to it.
 
 The app folder is listed in `additionalDirectories` in `.claude/settings.json`, so
 its files can be read without permission prompts. Its own `CLAUDE.md` still isn't
