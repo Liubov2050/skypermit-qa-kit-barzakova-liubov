@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "additionalDirectories": [
+      "/Users/liubovbarzakova/skypermit/ct-gen-ai-skypermit"
+    ],
+    "deny": [
+      "Edit(//Users/liubovbarzakova/skypermit/ct-gen-ai-skypermit/**)",
+      "Edit(/ct-gen-ai-skypermit/**)",
+      "WebSearch",
+      "WebFetch"
+    ]
+  }
+}
