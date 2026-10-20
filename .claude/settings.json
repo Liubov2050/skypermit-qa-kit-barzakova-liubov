@@ -6,8 +6,34 @@
     "deny": [
       "Edit(//Users/liubovbarzakova/skypermit/ct-gen-ai-skypermit/**)",
       "Edit(/ct-gen-ai-skypermit/**)",
+      "Read(//Users/liubovbarzakova/skypermit/ct-gen-ai-skypermit/.env*)",
+      "Read(/ct-gen-ai-skypermit/.env*)",
+      "Read(/.env*)",
       "WebSearch",
       "WebFetch"
+    ],
+    "ask": [
+      "Edit(/.claude/**)",
+      "Bash(npm install*)",
+      "Bash(npm ci*)",
+      "Bash(npm run dev*)",
+      "Bash(npm run build*)",
+      "Bash(npx next*)",
+      "Bash(npx supabase*)",
+      "Bash(supabase *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-writes-outside-repo.sh"
+          }
+        ]
+      }
     ]
   }
 }
