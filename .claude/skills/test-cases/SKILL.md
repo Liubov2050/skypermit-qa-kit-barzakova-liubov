@@ -68,9 +68,11 @@ Do not write without approval. Always ask the user to review the table first.
   (3 digits), e.g. `E2E-04-012`.
 - Numbering continues from the highest existing number in that module. Never reuse
   or renumber an ID, even if a case was deleted.
-- One file per feature area: `test-cases/<MM-module-slug>/<feature-slug>.md`. Append
-  to the existing file if the feature already has one.
-- Each file starts with `# <Module> — <Feature>`. No source list.
+- One file per test case, named by its ID:
+  `test-cases/<MM-module-slug>/<TC-ID>-<feature-slug>.md`, e.g.
+  `test-cases/01-auth-access/E2E-01-001-operator-registration.md`. Never put two
+  cases in one file. Cases in the same feature share the feature slug.
+- Each file starts with `# <Module> — <Feature>`, followed by its one case. No source list.
 - Never write inside `ct-gen-ai-skypermit/`.
 
 ## Step 5 — Write the cases
@@ -92,8 +94,13 @@ Use exactly this format:
 | 2 | ... | ... |
 
 **Postconditions:**
-- <cleanup, or "None">
+- <cleanup action; omit this whole section if no cleanup is needed>
 ```
+
+For a complete, approved case in this format, see
+`examples/E2E-01-001-operator-registration.md` (UI, positive, form with required-field check,
+per-run unique data, no Postconditions). Match its style and level of detail.
+Don't copy its IDs or data into new cases.
 
 Writing rules:
 
@@ -125,11 +132,14 @@ Writing rules:
 - **Expected result** for every step, observable in the UI (text, state, element
   visible) or in a response. For gate rejections, state `failing_gate`, the exact
   `rule_reference` from `06` §6 (corrected by `07`) and the message.
-- **Preconditions / Postconditions:** include only when needed; otherwise write
-  "None". Preconditions may use API calls for setup. Postconditions describe cleanup
-  only through actions the docs say exist. If the docs give no way to remove the data,
-  make the case independent instead (unique data per run, e.g.
-  `qa+<timestamp>@example.com`) and say so.
+- **Preconditions:** include only when needed; otherwise write "None". They may use
+  API calls for setup.
+- **Postconditions:** include the section only when there is a cleanup action to
+  perform. If there is none, leave out the whole section, heading included. Never
+  write "None". Postconditions describe cleanup only through actions the docs say
+  exist. If the docs give no way to remove the data, make the case independent
+  instead (unique data per run, e.g. `qa+<timestamp>@example.com`), say so in
+  Preconditions, and leave out Postconditions.
 - **Undefined behaviour** (items open in `05`, e.g. `Operator.status = SUSPENDED`,
   zone `active` citation): keep the case but write `Expected result undefined — see
   05-open-questions.md <id>` and assert nothing beyond what is confirmed.
