@@ -158,3 +158,23 @@ expected result. Never invent behaviour for something the docs leave open.
   creates. It's out of scope.
 - The developers' existing Vitest coverage (`ct-gen-ai-skypermit/tests/`) is useful
   for spotting gaps, but don't treat it as the expected behaviour.
+
+## Editing skills
+
+When asked to update a skill (`.claude/skills/*`), change **only** that skill's
+files. Don't modify any other file, such as test cases, test plans or the module
+registry, even if the skill change makes them out of date. If another file looks
+like it should be updated too, say so and ask first. Update it only after the
+user agrees.
+
+## URLs in QA artifacts
+
+Always use full URLs (base URL plus path), never relative paths like `/register`, in
+test cases, test plans, checklists and automated tests. Take the base URL of the
+running instance from the user or from memory. If it isn't known, ask.
+
+## Git workflow
+
+Commit directly to `main` in this repo. Don't create feature branches unless the
+user explicitly asks for one. `git push` still needs the user's approval (it is an
+`ask` rule in `.claude/settings.json`).
