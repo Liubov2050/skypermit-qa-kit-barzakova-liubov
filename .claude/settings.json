@@ -23,6 +23,10 @@
       "Bash(supabase *)"
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline.sh"
+  },
   "hooks": {
     "PreToolUse": [
       {
