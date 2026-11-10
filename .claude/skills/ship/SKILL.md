@@ -30,12 +30,13 @@ to confirm what is staged.
 
 ## Step 3 — Write the commit message
 
-One line, imperative or noun-phrase, max ~72 characters, no trailing period. It
-states the **main goal of the update**, not a list of files. Examples:
+One line, imperative or noun-phrase, max ~80 characters, no trailing period. It
+always starts with the prefix `ws2: ` and then states the **main goal of the
+update**, not a list of files. Examples:
 
-- `Instruction to use full URLs instead of relative paths in QA artifacts`
-- `test-plan skill update to include build version`
-- `Add operator registration test cases`
+- `ws2: Instruction to use full URLs instead of relative paths in QA artifacts`
+- `ws2: test-plan skill update to include build version`
+- `ws2: Add operator registration test cases`
 
 If the changes cover several unrelated goals, pick the main one; mention the rest
 in the summary and offer to split into separate commits.
@@ -57,10 +58,20 @@ Show the user:
 - **Files:** list with status (added / modified / deleted), from `git show --stat --format= HEAD`
 - **Goal:** one sentence on what the update does
 
-Then ask via `AskUserQuestion`: "Push this commit to origin/main?" with options
-**Push** / **Don't push** (the user may also pick Other to change the message,
-in which case `git commit --amend` is allowed only because the commit is not
-yet pushed).
+The question dialog can hide text written before it, so the summary must be
+**inside the `AskUserQuestion` question text itself**, not only in the chat.
+Print it in chat first, then repeat it in the question, in this form:
+
+```
+Commit <hash>: <commit message>
+Files: <status> <path>, <status> <path>, ...
+Goal: <one sentence>
+Push to origin/main?
+```
+
+Options: **Push** / **Don't push** (the user may also pick Other to change the
+message, in which case `git commit --amend` is allowed only because the commit
+is not yet pushed).
 
 Never push without an explicit "Push" answer in this run. Earlier approval does not carry over.
 
