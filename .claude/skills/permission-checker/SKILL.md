@@ -1,14 +1,16 @@
 ---
 name: permission-checker
 description: Read-only security audit of Claude Code permission settings. Reads the user, project, local and managed settings files and reports suspicious, harmful or insecure permission rules, sorted by the risk catalogue. Use when the user asks for a settings security audit, permissions audit or permission check.
-allowed-tools: Read, Glob, Grep
+allowed-tools: Read, Glob, Grep, Write
 ---
 
 # Permission checker: settings security audit
 
-**Read-only.** Never write, edit, move or delete any file, and never run shell
-commands that change anything. Only give information. Do not offer to apply fixes;
-show them as ready-to-copy rules for the user to apply.
+**Read-only with respect to the audited files.** Never write, edit, move or delete
+any settings file, the catalogue or any other existing file, and never run shell
+commands that change anything. The only file you may create is the new report in
+`reports/permission-audit/` (see Step 4). Do not offer to apply fixes; show them as
+ready-to-copy rules for the user to apply.
 
 The risk levels and their criteria come from the catalogue file
 `.claude/skills/permission-checker/risk-catalogue.md` (next to this file). Do not
@@ -57,13 +59,17 @@ equal scope is lower in practice. Say so, don't hide it.
 
 ## Step 3: Report
 
+Present **every part of the report as a Markdown table**. Never use bullet lists or
+per-finding blocks for results, even if a cell gets long (keep cells short and
+use `<br>` for line breaks inside a cell).
+
 Order findings from the highest risk level to the lowest, using the catalogue's
-level order. Use a table, or one block per finding if the text is long:
+level order, in one table, one row per finding:
 
-| Risk level | Rule | Source file | Why it is dangerous (with example) | How to fix (ready rule) |
-|---|---|---|---|---|
+| Risk level | Rule | Source file | Why it is dangerous (with example) | How to fix (ready rule) | Confidence |
+|---|---|---|---|---|---|
 
-For each finding:
+For each finding (one row):
 
 - **Rule:** exact text and list (`allow`, `ask`, ...).
 - **Source file:** full path and scope.
@@ -76,15 +82,45 @@ For each finding:
   something you can't see (environment, other tools, MCP server contents, a file
   you couldn't read, behavior of the Claude Code version). Say what to check.
 
-After the table, add:
+After the findings table, add these sections, each as its own table under a
+heading:
 
-- **Needs manual check:** unclear items, unreadable files, rules outside the catalogue.
-- **What is missing:** protections that are absent. Only report what you can
-  support from the files read, for example no `deny` for secrets files (`.env`,
-  `~/.ssh`), no `deny` for destructive commands, no managed settings found.
-- **What is fine:** a short summary in one or two sentences of the areas that look
-  safe. Do not list individual secure rules.
-- **Files read:** each path with status (read / not found / unreadable).
+**Needs manual check:** unclear items, unreadable files, rules outside the catalogue.
+
+| Item | Source file | Why it needs a manual check |
+|---|---|---|
+
+**What is missing:** protections that are absent. Only report what you can
+support from the files read, for example no `deny` for secrets files (`.env`,
+`~/.ssh`), no `deny` for destructive commands, no managed settings found.
+
+| Missing protection | Evidence (files read) | Suggested rule |
+|---|---|---|
+
+**What is fine:** a short summary in one or two sentences of the areas that look
+safe (plain text, not a table). Do not list individual secure rules.
+
+**Files read:** each path with status (read / not found / unreadable).
+
+| Scope | Path | Status |
+|---|---|---|
+
+If a section has no entries, write "None" instead of an empty table.
+
+## Step 4: Save the report
+
+After showing the report in chat, save the same report as a Markdown file.
+
+- **Folder:** `reports/permission-audit/` at the repo root. Do not use
+  `reports/ws2/`, which holds the session usage reports.
+- **File name:** `YYYY-MM-DD-permission-audit-N.md`, with today's date. Use Glob on
+  `reports/permission-audit/YYYY-MM-DD-permission-audit-*.md` and take the next free
+  `N` (start at `1`). Never overwrite an existing report.
+- **Content:** start with `# Permission audit: YYYY-MM-DD` and a line with the
+  number of findings per risk level, then the full report from Step 3 (all tables
+  and the "What is fine" text), unchanged from what was shown in chat.
+- Do not commit the file. Tell the user the saved path in the last line of the reply.
+- If the catalogue is empty (Step 2) or nothing was audited, do not save a file.
 
 ## Rules
 
@@ -92,4 +128,5 @@ After the table, add:
 - Do not report secure rules as findings.
 - Give the argument and reason for every finding; no bare verdicts.
 - If nothing is found, say so plainly, with the files read.
-- Do not modify any file, including settings, the catalogue and the report. Output the report in chat only.
+- Do not modify any existing file, including settings and the catalogue. The only
+  allowed write is the new report file from Step 4. Show the report in chat as well.
