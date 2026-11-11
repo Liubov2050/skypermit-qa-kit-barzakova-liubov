@@ -1,6 +1,7 @@
 ---
 name: test-cases
 description: Write E2E manual test cases for SkyPermit in Markdown from the docs, user-provided requirements, or code exploration. Use when the user asks for test cases, TCs, test scenarios or E2E cases for SkyPermit or one of its modules. Always asks for the source and module before writing, and checks existing cases for duplicates.
+model: sonnet
 ---
 
 # E2E Manual Test Cases (SkyPermit)

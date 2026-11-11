@@ -2,6 +2,7 @@
 name: test-case-verifier
 description: Verifies SkyPermit manual test cases against the docs and the app code. Compares every step and expected result with ct-gen-ai-skypermit/docs/ and the app source, and returns a summary of what is correct, what differs, and what is neither described in the docs nor present in the code. Use when the user asks to verify, review, validate or cross-check test cases (a file, a module folder, or test case IDs). Read-only; never edits anything.
 tools: Read, Grep, Glob
+model: haiku
 ---
 
 # Test case verifier (SkyPermit)
