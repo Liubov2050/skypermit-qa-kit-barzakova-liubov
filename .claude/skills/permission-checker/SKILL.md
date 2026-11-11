@@ -63,7 +63,13 @@ Present **every part of the report as a Markdown table**. Never use bullet lists
 per-finding blocks for results, even if a cell gets long (keep cells short and
 use `<br>` for line breaks inside a cell).
 
-Order findings from the highest risk level to the lowest, using the catalogue's
+Start with a summary table of findings by risk level, one row per catalogue level in
+the catalogue's order (include levels with 0 findings):
+
+| Risk level | Findings |
+|---|---|
+
+Then order findings from the highest risk level to the lowest, using the catalogue's
 level order, in one table, one row per finding:
 
 | Risk level | Rule | Source file | Why it is dangerous (with example) | How to fix (ready rule) | Confidence |
@@ -116,9 +122,9 @@ After showing the report in chat, save the same report as a Markdown file.
 - **File name:** `YYYY-MM-DD-permission-audit-N.md`, with today's date. Use Glob on
   `reports/permission-audit/YYYY-MM-DD-permission-audit-*.md` and take the next free
   `N` (start at `1`). Never overwrite an existing report.
-- **Content:** start with `# Permission audit: YYYY-MM-DD` and a line with the
-  number of findings per risk level, then the full report from Step 3 (all tables
-  and the "What is fine" text), unchanged from what was shown in chat.
+- **Content:** start with `# Permission audit: YYYY-MM-DD`, then the full report
+  from Step 3 (starting with the findings-by-risk-level table, then all other
+  tables and the "What is fine" text), unchanged from what was shown in chat.
 - Do not commit the file. Tell the user the saved path in the last line of the reply.
 - If the catalogue is empty (Step 2) or nothing was audited, do not save a file.
 
